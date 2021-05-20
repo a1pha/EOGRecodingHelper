@@ -84,18 +84,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _startsession() {
-    if (_stopwatch.isRunning) {
-      handleStartStop();
+    if (timedurationcontroller.text == '' || blinkperiodcontroller.text == '') {
     } else {
-      handleStartStop();
-      while (_stopwatch.elapsedMilliseconds / 1000 <=
-          int.parse(timedurationcontroller.text) * 60) {
-        final random = Random();
-        setState(() {});
+      if (_stopwatch.isRunning) {
+        handleStartStop();
+      } else {
+        handleStartStop();
+        while (_stopwatch.elapsedMilliseconds / 1000 <=
+            int.parse(timedurationcontroller.text) * 60) {
+          final random = Random();
+
+          setState(() {});
+        }
+        handleStartStop();
       }
-      handleStartStop();
     }
-    handleStartStop();
   }
 
   void _downloaddata() {
@@ -146,9 +149,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(formatTime(_stopwatch.elapsedMilliseconds),
                 style: TextStyle(fontSize: 48.0)),
-            ElevatedButton(
-                onPressed: handleStartStop,
-                child: Text(_stopwatch.isRunning ? 'Stop' : 'Start')),
             AnimatedContainer(
               // Use the properties stored in the State class.
               width: 200,
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Respond to button press
               },
               icon: Icon(Icons.play_arrow_rounded, size: 18),
-              label: Text("Start Session"),
+              label: Text(_stopwatch.isRunning ? 'Pause' : 'Start Session'),
             ),
             Text('Configure Session Settings:'),
             Row(
